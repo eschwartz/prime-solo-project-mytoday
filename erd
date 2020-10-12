@@ -1,0 +1,49 @@
+Music Lesson App
+
+- Teachers
+- Studios
+- Styles
+- Instruments
+- Messages* (stretch)
+
+
+Teacher
+    -First Name
+    -Last Name
+    -Bio
+
+    Instruments
+        -Name
+        -skill level* (stretch)
+
+
+Studios
+    -Name
+    -Address
+    -Phone Number
+    -Is Home Studio?
+
+
+
+Table Scraps
+    
+
+Foods
+User Profile
+
+
+Foods
+    - Safe / Unsafe
+    - Name
+    - Information
+
+User Profile   
+    - Dog 
+        -Name   
+        -Photo
+        -Likes
+        -Dislikes
+    -User Name
+    -Password
+
+
