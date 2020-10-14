@@ -3,7 +3,7 @@
 Pre-dev checklist
     [] Custom Logo
     [] React Calendar Build
-    [] Moment.js Build
+    [X] Moment.js Build
     [] Tailwind CSS tutorial
 
 --Client Side--

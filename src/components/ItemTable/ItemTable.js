@@ -41,7 +41,7 @@ class ItemTable extends React.Component {
                                     <tr>
                                         <td>{item.description}</td>
                                         <td>
-                                            <img key={i} src={item.image_url} />
+                                            <img key={i} src={`${item.file_url}`} />
                                         </td>
                                         <td><button onClick={() => this.deleteItem(item.id)}>Delete</button></td>
 

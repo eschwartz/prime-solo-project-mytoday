@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import mapStoreToProps from '../../redux/mapStoreToProps';
 import ItemTable from '../ItemTable/ItemTable';
 import AddItem from '../AddItem/AddItem';
+import FileUpload from '../FileUpload/FileUpload';
 
 
 
@@ -21,7 +22,8 @@ class InfoPage extends React.Component {
       <div>
         <p>Info Page</p>
         <ItemTable />
-        <AddItem />
+        {/* <AddItem /> */}
+        <FileUpload />
 
       </div>
     )
