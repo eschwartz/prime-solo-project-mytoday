@@ -1,5 +1,4 @@
 const express = require('express');
-const fileUpload = require('express-fileupload');
 require('dotenv').config();
 
 const app = express();
@@ -11,6 +10,7 @@ const passport = require('./strategies/user.strategy');
 // Route includes
 const userRouter = require('./routes/user.router');
 const shelfRouter = require('./routes/shelf.router');
+const fileRouter = require('./routes/file.router');
 
 // Body parser middleware
 app.use(bodyParser.json());
@@ -26,25 +26,9 @@ app.use(passport.session());
 /* Routes */
 app.use('/api/user', userRouter);
 app.use('/api/shelf', shelfRouter);
-app.use(fileUpload());
+app.use('/upload', fileRouter);
 
-// MOVING FILE FROM ORIGINAL SOURCE TO "uploads" project folder
-app.post('/upload', (req, res) => {
-  if (req.files === null) {
-    return res.status(400).json({ msg: 'no file uploaded' });
-  }
 
-  const file = req.files.file; //.file is tacos
-
-  file.mv(`/Users/tylerjorenby/PrimeAcademy/solo-project/public/uploads/${file.name}`, err => {
-    if (err) {
-      console.error(err);
-      return res.status(500).send(err)
-    }
-
-    res.json({ filePath: `/uploads/${file.name}` });
-  });
-});
 
 // Serve static files
 app.use(express.static('build'));

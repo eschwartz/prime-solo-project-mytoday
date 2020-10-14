@@ -58,17 +58,17 @@ const FileUpload = (props) => {
             }
         }
 
-        sendNewEvent();
+        const sendNewEvent = () => {
+            console.log('newEvent is:', newEvent);
+            props.dispatch({
+                type: 'ADD_ITEM',
+                payload: [newEvent, file]
+            })
+        }
 
     };
 
-    const sendNewEvent = () => {
-        console.log('newEvent is:', newEvent);
-        props.dispatch({
-            type: 'ADD_ITEM',
-            payload: [newEvent, file]
-        })
-    }
+
     return (
         <Fragment>
             {message ? <Message msg={message} /> : null}
