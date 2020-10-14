@@ -2,8 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import mapStoreToProps from '../../redux/mapStoreToProps';
 import ItemTable from '../ItemTable/ItemTable';
-import AddItem from '../AddItem/AddItem';
-import EventUpload from '../EventUpload/EventUpload';
 import NewEventForm from '../NewEventForm/NewEventForm';
 
 
@@ -21,10 +19,7 @@ class InfoPage extends React.Component {
     console.log('Props is:', this.props);
     return (
       <div>
-        <p>Info Page</p>
-        <ItemTable />
-        {/* <AddItem /> */}
-        {/* <EventUpload /> */}
+        <p>New Event</p>
         <NewEventForm />
 
       </div>

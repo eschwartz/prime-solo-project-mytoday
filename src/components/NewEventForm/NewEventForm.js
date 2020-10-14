@@ -5,59 +5,56 @@ import axios from 'axios';
 import { connect } from 'react-redux';
 import mapStoreToProps from '../../redux/mapStoreToProps';
 
-const FileUpload = (props) => {
+const NewEventForm = (props) => {
     const [file, setFile] = useState('');
     const [fileName, setFileName] = useState('Choose File');
+    const [fileUrl, setFileUrl] = useState('');
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
-    const [fileUrl, setFileUrl] = useState('');
+    const [uploadedFile, setUploadedFile] = useState({});
     const [message, setMessage] = useState('');
     const [highlight, setHighlight] = useState(false);
     const [uploadPercentage, setUploadPercentage] = useState(0);
+    const [imagePreview, setImagePreview] = useState('');
     const user_id = props.store.user.id;
     const date = new Date();
-
     const newEvent = {
         date: date,
         user_id: user_id,
         title: title,
         description: description,
-        file_url: fileUrl,
+        file_url: uploadedFile.filePath,
         highlight: highlight
     }
 
     console.log('Title:', title);
     console.log('Description:', description);
-    console.log('filePath:', fileUrl);
+    console.log('filePath:', uploadedFile.filePath);
     console.log('highlight:', highlight);
 
     const onChange = e => {
         setFile(e.target.files[0]);
         setFileName(e.target.files[0].name);
-        setFileUrl(`/uploads/${e.target.files[0].name}`)
+        setFileUrl(`/uploads/${e.target.files[0].name}`);
+        imageHandler(e.target.files[0]);
     };
 
-    const toggleHighlight = () => {
-        highlight ? setHighlight(false) : setHighlight(true);
-    }
-
-    const onSubmit = async e => {
-        e.preventDefault();
+    const addImage = async e => {
         const formData = new FormData();
         formData.append('file', file);
-
-        console.log('newEvent is:', newEvent);
-
-
         // Try / Catch to post image file to uploads folder
         try {
-            await axios.post('/upload', formData, {
+            const res = await axios.post('/upload', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
             });
 
+            const { fileName, filePath } = res.data;
+
+            setUploadedFile({ fileName, filePath });
             setMessage('File Uploaded');
+
         } catch (err) {
             if (err.response.status === 500) {
                 setMessage('There was a problem with the server');
@@ -66,6 +63,14 @@ const FileUpload = (props) => {
             }
         }
 
+    }
+
+    const toggleHighlight = () => {
+        highlight ? setHighlight(false) : setHighlight(true);
+    }
+
+    const onSubmit = e => {
+        e.preventDefault();
         // sending items to db
         props.dispatch({
             type: 'ADD_ITEM',
@@ -74,10 +79,34 @@ const FileUpload = (props) => {
 
     };
 
+    const imageHandler = e => {
+        const reader = new FileReader();
+        reader.onload = () => {
+            if (reader.readyState === 2) {
+                setImagePreview(reader.result);
+            }
+        }
+
+        reader.readAsDataURL(e);
+    }
 
     return (
         <Fragment>
-            {message ? <Message msg={message} /> : null}
+            <h4>New Event Form Component</h4>
+            <div>
+                <input
+                    type='file'
+                    className='custom-file-input'
+                    id='customFile'
+                    onChange={onChange}
+                />
+                <button onClick={() => addImage()}>Upload Image</button>
+                {/* <Progress percentage={uploadPercentage} /> */}
+                <div>
+                    <img src={imagePreview} alt="" id="img" />
+                </div>
+
+            </div>
             <form onSubmit={onSubmit}>
                 <div className='custom-file mb-4'>
                     <input
@@ -96,12 +125,6 @@ const FileUpload = (props) => {
                         placeholder='description'
                         onChange={(e) => setDescription(e.target.value)}
                     />
-                    <input
-                        type='file'
-                        className='custom-file-input'
-                        id='customFile'
-                        onChange={onChange}
-                    />
 
                     <input
                         type='checkbox'
@@ -114,17 +137,18 @@ const FileUpload = (props) => {
 
                 </div>
 
-                <Progress percentage={uploadPercentage} />
-
                 <input
                     type='submit'
-                    value='Upload'
+                    value='Add Event'
                     className='btn btn-primary btn-block mt-4'
                 />
             </form>
-            <div></div>
+
+            <div>
+                <button>Cancel</button>
+            </div>
         </Fragment>
     );
 };
 
-export default connect(mapStoreToProps)(FileUpload);
+export default connect(mapStoreToProps)(NewEventForm);

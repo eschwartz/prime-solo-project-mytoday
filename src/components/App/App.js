@@ -21,6 +21,7 @@ import LoginPage from '../LoginPage/LoginPage';
 import RegisterPage from '../RegisterPage/RegisterPage';
 
 import './App.css';
+import NewEvent from '../NewEvent/NewEvent';
 
 class App extends Component {
   componentDidMount() {
@@ -59,7 +60,7 @@ class App extends Component {
               // logged in shows InfoPage else shows LoginPage
               exact
               path="/info"
-              component={InfoPage}
+              component={NewEvent}
             />
 
             {/* When a value is supplied for the authRedirect prop the user will

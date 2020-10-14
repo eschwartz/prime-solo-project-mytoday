@@ -37,7 +37,7 @@ function* deleteItem(action) {
 }
 
 function* addItem(action) {
-    console.log('in fetchItems saga with', action);
+    console.log('in addItems saga with file', action.payload.file);
 
     let response = yield axios({
         method: 'POST',
