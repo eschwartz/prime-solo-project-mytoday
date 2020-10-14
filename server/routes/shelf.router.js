@@ -41,7 +41,7 @@ router.post('/', (req, res) => {
  */
 router.delete('/:id', (req, res) => {
   // DELETE route code here
-  const queryText = `DELETE FROM "item" WHERE id=$1;`;
+  const queryText = `DELETE FROM "events" WHERE id=$1;`;
 
   pool.query(queryText, [req.body.id])
     .then((result) => { res.send(result.rows); })

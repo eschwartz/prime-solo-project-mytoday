@@ -12,6 +12,7 @@ const FileUpload = (props) => {
     const [description, setDescription] = useState('');
     const [fileUrl, setFileUrl] = useState('');
     const [message, setMessage] = useState('');
+    const [highlight, setHighlight] = useState(false);
     const [uploadPercentage, setUploadPercentage] = useState(0);
     const user_id = props.store.user.id;
     const date = new Date();
@@ -22,18 +23,23 @@ const FileUpload = (props) => {
         title: title,
         description: description,
         file_url: fileUrl,
-        highlight: false,
+        highlight: highlight
     }
 
     console.log('Title:', title);
     console.log('Description:', description);
     console.log('filePath:', fileUrl);
+    console.log('highlight:', highlight);
 
     const onChange = e => {
         setFile(e.target.files[0]);
         setFileName(e.target.files[0].name);
         setFileUrl(`/uploads/${e.target.files[0].name}`)
     };
+
+    const toggleHighlight = () => {
+        highlight ? setHighlight(false) : setHighlight(true);
+    }
 
     const onSubmit = async e => {
         e.preventDefault();
@@ -42,6 +48,8 @@ const FileUpload = (props) => {
 
         console.log('newEvent is:', newEvent);
 
+
+        // Try / Catch to post image file to uploads folder
         try {
             await axios.post('/upload', formData, {
                 headers: {
@@ -58,13 +66,11 @@ const FileUpload = (props) => {
             }
         }
 
-        const sendNewEvent = () => {
-            console.log('newEvent is:', newEvent);
-            props.dispatch({
-                type: 'ADD_ITEM',
-                payload: [newEvent, file]
-            })
-        }
+        // sending items to db
+        props.dispatch({
+            type: 'ADD_ITEM',
+            payload: newEvent
+        })
 
     };
 
@@ -96,9 +102,16 @@ const FileUpload = (props) => {
                         id='customFile'
                         onChange={onChange}
                     />
-                    <label className='custom-file-label' htmlFor='customFile'>
-                        {fileName}
-                    </label>
+
+                    <input
+                        type='checkbox'
+                        className='custom-checkbox-input'
+                        id='highlighCheckbox'
+                        value={highlight}
+                        onClick={toggleHighlight}
+                    />
+                    Make Highlight?
+
                 </div>
 
                 <Progress percentage={uploadPercentage} />
