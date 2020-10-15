@@ -23,7 +23,8 @@ const NewEventForm = (props) => {
         user_id: user_id,
         title: title,
         description: description,
-        file_url: uploadedFile.filePath,
+        //file_url: uploadedFile.filePath,
+        file: file,
         highlight: highlight
     }
 
@@ -100,7 +101,7 @@ const NewEventForm = (props) => {
                     id='customFile'
                     onChange={onChange}
                 />
-                <button onClick={() => addImage()}>Upload Image</button>
+                {/* <button onClick={() => addImage()}>Upload Image</button> */}
                 {/* <Progress percentage={uploadPercentage} /> */}
                 <div>
                     <img src={imagePreview} alt="" id="img" />

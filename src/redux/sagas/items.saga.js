@@ -39,10 +39,18 @@ function* deleteItem(action) {
 function* addItem(action) {
     console.log('in addItems saga with file', action.payload.file);
 
+    let formData = new FormData();
+    formData.append('file', action.payload.file);
+    formData.append('date', action.payload.date);
+    formData.append('user_id', action.payload.user_id);
+
     let response = yield axios({
         method: 'POST',
-        url: `/api/shelf`,
-        data: action.payload
+        url: `/api/events`,
+        data: formData,
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
     });
 
     console.log('back from ADD ITEM with:', response.data);
